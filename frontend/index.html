@@ -24,7 +24,34 @@
     </div>
 
     <script>
-        // Script goes here
+        async function sendMessage() {
+            const inputbox = document.getElementById('inputbox');
+            const message = inputbox.value;
+            appendMessage(message, 'user');
+
+            // Clear the input box
+            inputbox.value = '';
+
+            // Make API call
+            try {
+                const response = await axios.post('YOUR_API_URL', { message });
+                appendMessage(response.data.message, 'bot');
+            } catch (error) {
+                console.error(error);
+                appendMessage('Error occurred while fetching the response.', 'bot');
+            }
+        }
+
+        function appendMessage(message, sender) {
+            const chatbox = document.getElementById('chatbox');
+            const msgElement = document.createElement('p');
+            msgElement.classList = sender === 'user' ? 'text-right' : 'text-left';
+            msgElement.innerText = message;
+            chatbox.appendChild(msgElement);
+
+            // Scroll to the bottom
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
     </script>
 </body>
 </html>
