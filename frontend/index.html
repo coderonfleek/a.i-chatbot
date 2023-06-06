@@ -34,7 +34,7 @@
 
             // Make API call
             try {
-                const response = await axios.post('YOUR_API_URL', { message });
+                const response = await axios.post('http://localhost:1330/message', { prompt : message });
                 appendMessage(response.data.message, 'bot');
             } catch (error) {
                 console.error(error);

@@ -2,6 +2,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const {Configuration, OpenAIApi} = require("openai");
+const bodyParser = require('body-parser');
 
 
 // Load environment variables from .env file
@@ -9,6 +10,9 @@ dotenv.config();
 
 // Create the Express app
 const app = express();
+
+// Use body-parser middleware to parse JSON bodies
+app.use(bodyParser.json());
 
 // Configure OpenAI API
 const configuration = new Configuration({
@@ -28,17 +32,25 @@ app.get('/message', async (req, res) => {
     console.log(process.env.OPENAI_API_KEY);
 
     try {
+        const {prompt} = req.body;
+
         const chatCompletion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: [
-                {
-                    role: "user",
-                    content: "When was the first version of Node.js released"
-                }
+                {"role": "system", "content": "You are a web expert"},
+                {"role": "user", "content": prompt},
+                
             ]
           })
+          /*
+          {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
+          {"role": "user", "content": "Where was it played?"}
+          */
 
-          res.json(chatCompletion.data.choices[0].message);
+          res.json({
+            message : chatCompletion.data.choices[0].message.content,
+            role: chatCompletion.data.choices[0].message.role
+          });
     } catch (error) {
         console.log(JSON.stringify(error));
     }
