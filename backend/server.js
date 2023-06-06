@@ -27,6 +27,7 @@ app.get('/message', async (req, res) => {
 
     console.log(process.env.OPENAI_API_KEY);
 
+    // Send first chat message
     try {
         const chatCompletion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
