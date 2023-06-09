@@ -1,6 +1,7 @@
 // Import the necessary libraries
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require("cors");
 const {Configuration, OpenAIApi} = require("openai");
 
 
@@ -9,6 +10,9 @@ dotenv.config();
 
 // Create the Express app
 const app = express();
+
+// Setup Cors
+app.use(cors());
 
 // Configure OpenAI API
 const configuration = new Configuration({
@@ -23,7 +27,7 @@ app.get('/', (req, res) => {
 });
 
 // Create a "message" route which returns a JSON response
-app.get('/message', async (req, res) => {
+app.post('/message', async (req, res) => {
 
     console.log(process.env.OPENAI_API_KEY);
 
