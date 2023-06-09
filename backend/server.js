@@ -3,6 +3,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const {Configuration, OpenAIApi} = require("openai");
 const bodyParser = require('body-parser');
+const cors = require("cors");
 
 
 // Load environment variables from .env file
@@ -13,6 +14,9 @@ const app = express();
 
 // Use body-parser middleware to parse JSON bodies
 app.use(bodyParser.json());
+
+// Setup CORs
+app.use(cors());
 
 // Configure OpenAI API
 const configuration = new Configuration({
@@ -27,7 +31,7 @@ app.get('/', (req, res) => {
 });
 
 // Create a "message" route which returns a JSON response
-app.get('/message', async (req, res) => {
+app.post('/message', async (req, res) => {
 
     console.log(process.env.OPENAI_API_KEY);
 
