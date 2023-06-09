@@ -36,15 +36,22 @@ app.post('/message', async (req, res) => {
     console.log(process.env.OPENAI_API_KEY);
 
     try {
-        const {prompt} = req.body;
+        const {prompt, previousMessage} = req.body;
+
+        let messages = [];
+
+        if(previousMessage){
+          messages[0] = {
+            "role" : "assistant",
+            "content": previousMessage
+          }
+        }
+
+        messages.push({"role": "user", "content": prompt})
 
         const chatCompletion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
-            messages: [
-                {"role": "system", "content": "You are a web expert"},
-                {"role": "user", "content": prompt},
-                
-            ]
+            messages: messages
           })
           /*
           {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
