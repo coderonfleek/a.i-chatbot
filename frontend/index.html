@@ -4,6 +4,26 @@
     <title>Chatbot</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+
+    <style>
+        .message {
+            border-radius: 10px;
+            padding: 10px;
+            margin: 5px 0;
+            line-height: 1.4;
+        }
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            text-align: right;
+            margin-left: 20%;
+        }
+        .bot-message {
+            background-color: #e9ecef;
+            text-align: left;
+            margin-right: 20%;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -50,7 +70,8 @@
         function appendMessage(message, sender) {
             const chatbox = document.getElementById('chatbox');
             const msgElement = document.createElement('p');
-            msgElement.classList = sender === 'user' ? 'text-right' : 'text-left';
+            //msgElement.classList = sender === 'user' ? 'text-right' : 'text-left text-success';
+            msgElement.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
             msgElement.innerText = message;
             chatbox.appendChild(msgElement);
 
